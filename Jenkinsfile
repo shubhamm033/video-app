@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-creds')
         GIT_CREDENTIALS = credentials('git-creds')
-        EC2_SSH_KEY = credentials('ec2')
+//         EC2_SSH_KEY = credentials('ec2')
         DOCKER_IMAGE = 'shubhamm033/video:latest'
         EC2_USER = 'ubuntu' // Replace with your EC2 username
         EC2_HOST = 'ec2-3-108-185-93.ap-south-1.compute.amazonaws.com'
