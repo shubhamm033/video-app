@@ -75,25 +75,16 @@ WSGI_APPLICATION = 'splitwise.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # settings.py
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'video',
-        'USER': 'username',
-        'PASSWORD': 'password',
-        'HOST': 'ec2-43-204-144-53.ap-south-1.compute.amazonaws.com',
-        'PORT': '3306',
-    }
-}
+
 
 
 
