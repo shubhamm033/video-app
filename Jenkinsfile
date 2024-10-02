@@ -9,6 +9,7 @@ pipeline {
         EC2_USER = 'ubuntu' // Replace with your EC2 username
         EC2_HOST = 'ec2-3-108-185-93.ap-south-1.compute.amazonaws.com'
         PROJECT_DIR = '/home/ubuntu/splitwise'
+        CONTAINER_NAME = 'video-app'
     }
 
     stages {
@@ -38,16 +39,25 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2') {
+
+        stage('Pull Docker Image') {
             steps {
-                sshagent(['ec2-ssh-key']) {
+                script {
+                    // Pull the latest Docker image
+                    sh 'docker pull ${DOCKER_IMAGE}'
+                }
+            }
+        }
+
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    // Stop and remove the existing container if it exists
                     sh """
-                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} << EOF
-                            docker pull ${DOCKER_IMAGE}
-                            docker stop app_container || true
-                            docker rm app_container || true
-                            docker run -d --name app_container -p 8000:8000 ${DOCKER_IMAGE}
-                        EOF
+                        docker stop ${CONTAINER_NAME} || true
+                        docker rm ${CONTAINER_NAME} || true
+                        # Run the new container
+                        docker run -d --name ${CONTAINER_NAME} -p 8000:8000 ${DOCKER_IMAGE}
                     """
                 }
             }
