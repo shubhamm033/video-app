@@ -14,9 +14,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/yourusername/your-django-repo.git',
-                    credentialsId: 'git-credentials'
+                git branch: 'master',
+                    url: 'https://github.com/shubhamm033/video-app.git',
+                    credentialsId: 'git-creds'
             }
         }
 
@@ -31,7 +31,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-creds') {
                         docker.image(DOCKER_IMAGE).push()
                     }
                 }
