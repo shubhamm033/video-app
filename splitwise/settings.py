@@ -83,7 +83,16 @@ WSGI_APPLICATION = 'splitwise.wsgi.application'
 
 # settings.py
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'video',
+        'USER': 'username',
+        'PASSWORD': 'password',
+        'HOST': 'ec2-43-204-144-53.ap-south-1.compute.amazonaws.com',
+        'PORT': '3306',
+    }
+}
 
 
 
