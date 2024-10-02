@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-cred')
+        DOCKERHUB_CREDENTIALS = credentials('docker-creds')
         GIT_CREDENTIALS = credentials('git-creds')
         EC2_SSH_KEY = credentials('ec2')
         DOCKER_IMAGE = 'shubhamm033/video:latest'
