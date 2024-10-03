@@ -32,4 +32,4 @@ RUN python manage.py migrate
 EXPOSE 8000
 
 # Start Gunicorn
-CMD ["gunicorn", "splitwise.wsgi:application", "--workers", "4", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "splitwise.wsgi:application", "--workers", "2", "--bind", "0.0.0.0:8000"]
