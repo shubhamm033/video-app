@@ -10,6 +10,7 @@ from datetime import datetime
 
 lock = threading.Lock()
 
+
 # Create your views here.
 @api_view(['POST'])
 def create_user(request):
@@ -65,7 +66,8 @@ def watch_video(request):
             video_views.save()
             lock.release()
             return Response({"success": "tv watching",
-                             "response_time" : (datetime.now() - start_time).microseconds}, status=status.HTTP_201_CREATED)
+                             "response_time": (datetime.now() - start_time).microseconds},
+                            status=status.HTTP_201_CREATED)
 
         except Exception as e:
             return Response({"error": serializer.errors}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
