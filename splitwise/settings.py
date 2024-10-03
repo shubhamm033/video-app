@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-afs6=fsqard528furimft6!=5nh^x@r#ftt%x0apsl-2b-#450
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["ec2-3-108-185-93.ap-south-1.compute.amazonaws.com"]
+ALLOWED_HOSTS = ["13.202.213.75"]
 
 
 # Application definition
@@ -75,15 +75,25 @@ WSGI_APPLICATION = 'splitwise.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+#
+# # settings.py
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'video',
+        'USER': 'username',
+        'PASSWORD': 'password',
+        'HOST': 'ec2-43-204-144-53.ap-south-1.compute.amazonaws.com',
+        'PORT': '3306',
     }
 }
-
-# settings.py
-
 
 
 
