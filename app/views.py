@@ -7,6 +7,7 @@ from rest_framework import status
 from .models import VideoViews, User, Video
 import threading
 from datetime import datetime
+from django.db import transaction
 
 lock = threading.Lock()
 
@@ -59,12 +60,12 @@ def watch_video(request):
     serializer = WatchVideoSerializer(data=request.data)
     if serializer.is_valid():
         try:
-            lock.acquire()
-            video_views = VideoViews.objects.get(video=serializer.validated_data["video"])
-            video_views_count = video_views.count + 1
-            video_views.count = video_views_count
-            video_views.save()
-            lock.release()
+            with transaction.atomic():
+                video_views = VideoViews.objects.select_for_update().get(video=serializer.validated_data["video"])
+                video_views_count = video_views.count + 1
+                video_views.count = video_views_count
+                video_views.save()
+
             return Response({"success": "tv watching",
                              "response_time": (datetime.now() - start_time).microseconds},
                             status=status.HTTP_201_CREATED)
