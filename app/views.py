@@ -62,12 +62,12 @@ def watch_video(request):
     if serializer.is_valid():
         try:
 
-            VideoViews.object.filter(video=serializer.validated_data["video"]).update(count=F('count') + 1)
+            VideoViews.objects.filter(video=serializer.validated_data["video"]).update(count=F('count') + 1)
             return Response({"success": "tv watching",
                              "response_time": (datetime.now() - start_time).microseconds},
                             status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            return Response({"error": serializer.errors}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
