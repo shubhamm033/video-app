@@ -29,9 +29,9 @@ class VideoViews(models.Model):
     def save(self, *args, **kwargs):
 
         if self.pk:
-            time.sleep(2)
+            # time.sleep(2)
             current_version = VideoViews.objects.get(pk=self.pk).version
-
+            print(current_version, self.version)
             if self.version != current_version:
                 raise ValidationError("Some other transcation updated it, versionchanges")
 
