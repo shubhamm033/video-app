@@ -60,12 +60,8 @@ def watch_video(request):
     serializer = WatchVideoSerializer(data=request.data)
     if serializer.is_valid():
         try:
-            with transaction.atomic():
-                video_views = VideoViews.objects.select_for_update().get(video=serializer.validated_data["video"])
-                video_views_count = video_views.count + 1
-                video_views.count = video_views_count
-                video_views.save()
 
+            VideoViews.object.filter(video=serializer.validated_data["video"]).update(count=F('count') + 1)
             return Response({"success": "tv watching",
                              "response_time": (datetime.now() - start_time).microseconds},
                             status=status.HTTP_201_CREATED)
