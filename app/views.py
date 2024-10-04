@@ -61,9 +61,18 @@ def watch_video(request):
     serializer = WatchVideoSerializer(data=request.data)
     if serializer.is_valid():
         try:
+            with transaction.atomic():
+                video_views = VideoViews.objects.get(video=serializer.validated_data["video"])
+                print("count of inventory is " + str(video_views.count))
 
-            VideoViews.objects.filter(video=serializer.validated_data["video"]).update(count=F('count') + 1)
-            return Response({"success": "tv watching",
+                if video_views.count > 0:
+                    video_views.count -= 1
+                    video_views.save()
+                else:
+                    return Response({"success": "tv watching_not_allowed, all seats full",
+                                     "response_time": (datetime.now() - start_time).microseconds},
+                                    status=status.HTTP_400_BAD_REQUEST)
+            return Response({"success": "tv watching_allowed",
                              "response_time": (datetime.now() - start_time).microseconds},
                             status=status.HTTP_201_CREATED)
 

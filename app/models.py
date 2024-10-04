@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import timezone, datetime
-
+from django.core.exceptions import ValidationError
+import time
 
 # Create your models here.
 
@@ -23,3 +24,16 @@ class Video(models.Model):
 class VideoViews(models.Model):
     video = models.OneToOneField(Video, on_delete=models.CASCADE, related_name='video_views')
     count = models.IntegerField(default=0)
+    version = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+
+        if self.pk:
+            time.sleep(2)
+            current_version = VideoViews.objects.get(pk=self.pk).version
+
+            if self.version != current_version:
+                raise ValidationError("Some other transcation updated it, versionchanges")
+
+            self.version += 1
+        super(VideoViews, self).save(*args, **kwargs)
